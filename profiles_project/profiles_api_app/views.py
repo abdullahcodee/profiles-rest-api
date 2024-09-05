@@ -3,6 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from rest_framework import viewsets
 
 from .import serializers
 from rest_framework import status
@@ -17,32 +18,32 @@ class HelloAPIView(APIView):
         """return a list of APIview features"""
         an_api_view = [
             'Usese HTTP methods as functions (get, POST, Patch, Put, Delete)',
-            'it is  Similar to traditional Django View',
+            'it is Similar to traditional Django View',
             'Gives you the most control over your logic',
             'Is Mapped manually to URLs'
-        ]
-
+            ]
         return Response({
-            'message': 'hello',
-            'an_API_view': an_api_view
-            })
+        'message': 'hello',
+        'an_API_view': an_api_view
+        })
 
     def post(self,request):
         serializer = serializers.HelloSerialzer(data=request.data)
         if serializer.is_valid():
             name = serializer.data.get('name')
             message = "hello {0}".format(name)
+
             return Response({
-                'message':message
+            'message':message
             })
 
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self,request,pk=None):
-        """handles updating objects"""
+     """handles updating objects"""
+     return Response({'method':'put'})
 
-        return Response({'method':'put'})
     def patch(self,request,pk=None):
         """patch only updating the fields provided in the request"""
         return Response({'method':'patch'})
@@ -53,3 +54,15 @@ class HelloAPIView(APIView):
         return Response({'method':'delete'})
 
 
+class HelloViewSet(viewsets.ViewSet):
+    def list(self,request):
+        a_viewSet = [
+            "uses actions (list, create, update retrive, partial_update)",
+            "Automatically maps to URLs using routers",
+            "Provides more fanctionality with less code"
+        ]
+
+        return Response({
+            "message": "hello",
+            "a_view_set": a_viewSet
+        })
