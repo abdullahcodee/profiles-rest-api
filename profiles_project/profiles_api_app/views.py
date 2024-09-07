@@ -1,12 +1,15 @@
 from django.shortcuts import render
 
-from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.views import APIView
 
 from .import serializers
-from rest_framework import status
+from .import models
+
+
+#read the differnece between APIVIew and ViewSets in the urls.py comment
 
 """define hello API view """
 
@@ -108,5 +111,9 @@ class HelloViewSet(viewsets.ViewSet):
         """Handles Deleting an object"""
 
         return Response({'http_method': 'DELETE'})
+
+class UserProfileViewset(viewsets.ModelViewSet):
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
 
 

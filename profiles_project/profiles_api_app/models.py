@@ -59,3 +59,4 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         """django used this in the admin showing fields """
         return f"{self.email}"
+
