@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 
 from .import serializers
 from .import models
+from .import permissions
+from rest_framework.authentication import TokenAuthentication
 
 
 #read the differnece between APIVIew and ViewSets in the urls.py comment
@@ -115,5 +117,6 @@ class HelloViewSet(viewsets.ViewSet):
 class UserProfileViewset(viewsets.ModelViewSet):
     serializer_class = serializers.UserProfileSerializer
     queryset = models.UserProfile.objects.all()
-
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)
 
