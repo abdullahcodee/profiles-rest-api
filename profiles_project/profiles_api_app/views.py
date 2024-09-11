@@ -4,11 +4,16 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication
+
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+
 
 from .import serializers
 from .import models
 from .import permissions
-from rest_framework.authentication import TokenAuthentication
+
 
 from rest_framework import filters
 
@@ -116,6 +121,7 @@ class HelloViewSet(viewsets.ViewSet):
         return Response({'http_method': 'DELETE'})
 
 class UserProfileViewset(viewsets.ModelViewSet):
+    """ModelViewSet is specialized to handle create , update, delete,retrive, and destroy while handling APIs through models"""
     serializer_class = serializers.UserProfileSerializer
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)

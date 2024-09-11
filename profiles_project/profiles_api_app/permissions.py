@@ -6,8 +6,9 @@ class UpdateOwnProfile(permissions.BasePermission):
     def has_object_permission(self,request,view,obj):
 
         if request.method in permissions.SAFE_METHODS:
+            """safe method allow you to retrive data not to destruct data here we allow all users to get or review not to delete or update"""
             return True
-
+        """ here we check if the user is updating his own profile otherwise the permission will be denied """
         return obj.id == request.user.id
 
 """
