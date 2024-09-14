@@ -1,16 +1,24 @@
 from django.urls import path, include
 from .import views
+from rest_framework.authtoken.views import ObtainAuthToken
+
 
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register("hello-viewset", views.HelloViewSet, basename="hello-viewset")
 router.register("profile", views.UserProfileViewset )
+# router.register("login", views.LoginViewSet, basename="login")
+
+
+"""we use the base name if it's not a modelViewSet to make django identify the router"""
+
 
 
 
 urlpatterns = [
     path("hello/",views.HelloAPIView.as_view(), name="hello"),
+    path('login/', ObtainAuthToken.as_view(), name='api_token_auth'),
     path("", include(router.urls)),
 
 ]

@@ -5,9 +5,10 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
-
+"""this 2 to handle the login request we create view and passes the request through obtain Auth Token  """
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 
 from .import serializers
@@ -18,6 +19,9 @@ from .import permissions
 from rest_framework import filters
 
 #read the differnece between APIVIew and ViewSets in the urls.py comment
+
+for user in models.UserProfile.objects.all():
+    Token.objects.get_or_create(user=user)
 
 """define hello API view """
 
@@ -128,5 +132,21 @@ class UserProfileViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter, )
     search_fields = ('name','email', )
+
+
+
+class LoginViewSet(viewsets.ViewSet):
+    """ checks email and password and returns an Auth token """
+    serializer_class = AuthTokenSerializer
+
+    def create(self,request):
+        """use ObtainAuthToken AOIView to validate and create a Token"""
+        return ObtainAuthToken().post(request)
+
+
+
+
+
+
 
 
