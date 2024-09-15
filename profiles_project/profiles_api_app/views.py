@@ -9,6 +9,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+"""it give the user the permission to do anything if they are authinticated and prevent them from doing anythin if they are not authinticated"""
+from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 
 
 from .import serializers
@@ -142,6 +144,19 @@ class LoginViewSet(viewsets.ViewSet):
     def create(self,request):
         """use ObtainAuthToken AOIView to validate and create a Token"""
         return ObtainAuthToken().post(request)
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """handels creating, reading, and updating profile feed Items """
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedItemSerializer
+    queryset = models.ProfileFeedItem.objects.all()
+    permission_classes = (permissions.PostOwnStatus,IsAuthenticated)
+
+
+    def perform_create(self, serializer):
+        """set the user profile to the logged in user """
+        serializer.save(user_profile= self.request.user)
+        """ensures feed items are associated with the correct user."""
 
 
 

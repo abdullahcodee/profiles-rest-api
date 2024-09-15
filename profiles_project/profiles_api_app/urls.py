@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register("hello-viewset", views.HelloViewSet, basename="hello-viewset")
 router.register("profile", views.UserProfileViewset )
-# router.register("login", views.LoginViewSet, basename="login")
+router.register("feed", views.UserProfileFeedViewSet) #if it's inherted from viewset it doesn't require basename
 
 
 """we use the base name if it's not a modelViewSet to make django identify the router"""
